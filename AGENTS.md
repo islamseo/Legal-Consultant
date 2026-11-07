@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project decisions
+- Keep the public-facing law office site Arabic-first and RTL, because its intended audience is in Heliopolis, Cairo.
