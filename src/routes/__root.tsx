@@ -12,6 +12,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { ContentProvider } from "@/lib/cms-context";
+import { supabase } from "@/integrations/supabase/client";
+import { Toaster } from "@/components/ui/sonner";
 import { FloatingContact } from "@/components/floating-contact";
 
 function NotFoundComponent() {
@@ -117,12 +120,14 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  useEffect(() => { const { data } = supabase.auth.onAuthStateChange(event => { if (!["SIGNED_IN","SIGNED_OUT","USER_UPDATED"].includes(event)) return; void router.invalidate(); if(event !== "SIGNED_OUT") void queryClient.invalidateQueries(); }); return () => data.subscription.unsubscribe(); }, [router,queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <FloatingContact />
+      <ContentProvider><Outlet /><FloatingContact /></ContentProvider>
+      <Toaster />
     </QueryClientProvider>
   );
 }

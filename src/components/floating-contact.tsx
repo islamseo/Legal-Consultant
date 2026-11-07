@@ -1,5 +1,5 @@
 import { Phone } from "lucide-react";
-import { internationalPhone, phoneNumber, whatsappHref } from "@/lib/site-content";
+import { useSiteContent, siteView } from "@/lib/cms-context";
 
 function WhatsAppGlyph({ className }: { className?: string }) {
   return (
@@ -14,13 +14,15 @@ function WhatsAppGlyph({ className }: { className?: string }) {
  * Rendered from the root layout so it survives route changes.
  */
 export function FloatingContact() {
+  const content = useSiteContent();
+  const {phoneNumber,internationalPhone} = siteView(content);
   return (
     <div
       className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-start px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6 sm:pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
     >
       <div className="pointer-events-auto flex flex-row items-center gap-3">
         <a
-          href={whatsappHref()}
+          href={`https://wa.me/${content.settings.whatsapp}?text=${encodeURIComponent(content.settings.greeting)}`}
           target="_blank"
           rel="noreferrer"
           aria-label="راسل المكتب على واتساب"

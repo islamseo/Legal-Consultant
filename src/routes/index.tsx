@@ -1,64 +1,23 @@
+import { getPublishedContent } from "@/lib/cms.functions";
+import { contentHead } from "@/lib/cms-defaults";
+import { resolveImage } from "@/lib/cms-defaults";
+import { useSiteContent, siteView } from "@/lib/cms-context";
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpLeft, BadgeCheck, ChevronLeft, ChevronRight } from "lucide-react";
-import officeImage from "@/assets/law-office-heliopolis.jpg";
-import consultationImage from "@/assets/legal-consultation-room.jpg";
-import libraryImage from "@/assets/legal-library.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
-import { officePrinciples, services } from "@/lib/site-content";
-
-const slides = [
-  {
-    image: officeImage,
-    alt: "مكتب محاماة في مصر الجديدة",
-    eyebrow: "مكتب محاماة في مصر الجديدة",
-    title: "استشارات قانونية بثقة ووضوح",
-    description: "نساعدك على فهم موقفك القانوني ومناقشة الخيارات والخطوات المناسبة لاحتياجك.",
-    action: "احجز استشارتك",
-    destination: "/legal-consultation" as const,
-  },
-  {
-    image: consultationImage,
-    alt: "مساحة مخصصة للحديث ومناقشة الاستفسارات القانونية",
-    eyebrow: "اهتمام بكل استفسار",
-    title: "استمع أولًا، ثم اختر خطوتك",
-    description: "نبدأ بفهم تفاصيل موضوعك، ونوضح لك ما يحتاج إلى استشارة أو متابعة قانونية.",
-    action: "من نحن",
-    destination: "/about" as const,
-  },
-  {
-    image: libraryImage,
-    alt: "كتب قانونية وميزان العدالة في مكتبة المكتب",
-    eyebrow: "خدمات قانونية متنوعة",
-    title: "دعم قانوني يناسب احتياجك",
-    description: "من مراجعة العقود إلى الاستشارات، ناقش احتياجك مع مكتبنا في مصر الجديدة.",
-    action: "اكتشف خدماتنا",
-    destination: "/services" as const,
-  },
-];
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "محامي واستشارات قانونية في مصر الجديدة | مكتب محاماة" },
-      {
-        name: "description",
-        content: "مكتب محاماة واستشارات قانونية في مصر الجديدة، القاهرة. تواصل مباشرة لحجز استشارة عبر الهاتف أو واتساب: 01002477508.",
-      },
-      { property: "og:title", content: "محامي واستشارات قانونية في مصر الجديدة" },
-      {
-        property: "og:description",
-        content: "استشارات ومتابعة قانونية في مصر الجديدة. اتصل أو أرسل رسالة واتساب على 01002477508.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  loader: () => getPublishedContent(),
+  head: ({ loaderData }) => contentHead(loaderData, "/"),
   component: Index,
 });
 
 function Index() {
+  const content = useSiteContent();
+  const { services, officePrinciples, blogArticles, phoneNumber, internationalPhone } = siteView(content);
+  const slides = content.slides.map(slide => ({ ...slide, image: resolveImage(slide.image) }));
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
@@ -69,7 +28,7 @@ function Index() {
     }, 6500);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const currentSlide = slides[activeSlide] ?? slides[0];
   if (!currentSlide) return null;
@@ -78,7 +37,7 @@ function Index() {
     <main dir="rtl" className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <section aria-roledescription="عارض شرائح" aria-label="تعريف بخدمات المكتب" className="mx-auto max-w-7xl px-4 pt-5 sm:px-8 sm:pt-8 lg:px-12">
+      <section aria-roledescription={content.text["index_9"]} aria-label="تعريف بخدمات المكتب" className="mx-auto max-w-7xl px-4 pt-5 sm:px-8 sm:pt-8 lg:px-12">
         <div className="relative isolate flex min-h-[600px] items-center overflow-hidden bg-legal-ink sm:min-h-[560px] lg:min-h-[620px]">
           <img
             key={currentSlide.alt}
@@ -111,11 +70,11 @@ function Index() {
           </div>
 
           <div className="absolute bottom-5 left-5 flex items-center gap-2 sm:bottom-8 sm:left-8" dir="ltr">
-            <Button type="button" variant="outline" size="icon" title="الشريحة السابقة" aria-label="الشريحة السابقة" onClick={() => setActiveSlide((activeSlide + slides.length - 1) % slides.length)} className="border-primary-foreground/35 bg-legal-ink/40 text-primary-foreground hover:bg-legal-ink/75 hover:text-primary-foreground">
+            <Button type="button" variant="outline" size="icon" title={content.text["index_10"]} aria-label="الشريحة السابقة" onClick={() => setActiveSlide((activeSlide + slides.length - 1) % slides.length)} className="border-primary-foreground/35 bg-legal-ink/40 text-primary-foreground hover:bg-legal-ink/75 hover:text-primary-foreground">
               <ChevronLeft aria-hidden="true" />
             </Button>
             <span className="min-w-11 text-center text-sm text-primary-foreground" aria-live="polite">0{activeSlide + 1} / 0{slides.length}</span>
-            <Button type="button" variant="outline" size="icon" title="الشريحة التالية" aria-label="الشريحة التالية" onClick={() => setActiveSlide((activeSlide + 1) % slides.length)} className="border-primary-foreground/35 bg-legal-ink/40 text-primary-foreground hover:bg-legal-ink/75 hover:text-primary-foreground">
+            <Button type="button" variant="outline" size="icon" title={content.text["index_11"]} aria-label="الشريحة التالية" onClick={() => setActiveSlide((activeSlide + 1) % slides.length)} className="border-primary-foreground/35 bg-legal-ink/40 text-primary-foreground hover:bg-legal-ink/75 hover:text-primary-foreground">
               <ChevronRight aria-hidden="true" />
             </Button>
           </div>
@@ -125,8 +84,8 @@ function Index() {
       <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
         <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-3 text-sm font-semibold text-primary">خدماتنا القانونية</p>
-            <h2 className="max-w-2xl text-3xl leading-relaxed font-bold sm:text-4xl">دعم قانوني يناسب احتياجك</h2>
+            <p className="mb-3 text-sm font-semibold text-primary">{content.text["index_1"]}</p>
+            <h2 className="max-w-2xl text-3xl leading-relaxed font-bold sm:text-4xl">{content.text["index_2"]}</h2>
           </div>
           <Link to="/services" className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-primary">
             عرض جميع الخدمات
@@ -147,9 +106,9 @@ function Index() {
       <section className="bg-muted">
         <div className="mx-auto grid max-w-7xl gap-9 px-5 py-14 sm:px-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center lg:gap-16 lg:px-12">
           <div>
-            <p className="mb-3 text-sm font-semibold text-primary">من نحن</p>
-            <h2 className="text-3xl leading-relaxed font-bold">المعلومة الواضحة أول خطوة نحو قرار أفضل</h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">نهتم بفهم تفاصيل موضوعك وتوضيح الخطوات القانونية الممكنة، باهتمام وسرية في التواصل.</p>
+            <p className="mb-3 text-sm font-semibold text-primary">{content.text["index_3"]}</p>
+            <h2 className="text-3xl leading-relaxed font-bold">{content.text["index_4"]}</h2>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground">{content.text["index_5"]}</p>
             <Link to="/about" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-primary">
               تعرف على المكتب
               <ArrowUpLeft aria-hidden="true" className="size-4" />
@@ -169,11 +128,11 @@ function Index() {
 
       <section className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-5 px-5 py-12 sm:flex-row sm:items-center sm:px-8 lg:px-12">
         <div>
-          <h2 className="text-2xl font-bold">هل لديك استفسار قانوني؟</h2>
-          <p className="mt-2 text-sm text-muted-foreground">تواصل معنا لمناقشة احتياجك.</p>
+          <h2 className="text-2xl font-bold">{content.text["index_6"]}</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{content.text["index_7"]}</p>
         </div>
         <Button asChild size="lg" className="h-12 gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-          <Link to="/legal-consultation">اطلب استشارة <ArrowLeft aria-hidden="true" /></Link>
+          <Link to="/legal-consultation">{content.text["index_8"]}<ArrowLeft aria-hidden="true" /></Link>
         </Button>
       </section>
 

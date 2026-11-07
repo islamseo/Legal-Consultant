@@ -1,38 +1,33 @@
+import { getPublishedContent } from "@/lib/cms.functions";
+import { contentHead } from "@/lib/cms-defaults";
+import { useSiteContent, siteView } from "@/lib/cms-context";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, BadgeCheck, Compass, Eye, Flag, HandHeart } from "lucide-react";
 import { SectionIntro } from "@/components/section-intro";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
-import { officePrinciples } from "@/lib/site-content";
 
 const principleIcons = [Eye, Compass, Flag, HandHeart] as const;
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "من نحن | مكتب محاماة واستشارات قانونية" },
-      { name: "description", content: "تعرف على طريقة عمل مكتب المحاماة ورؤيته وأهدافه ورسالته في مصر الجديدة." },
-      { property: "og:title", content: "من نحن | مكتب المحاماة" },
-      { property: "og:description", content: "تعرف على رؤيتنا ورسالتنا وأهدافنا القانونية في مصر الجديدة." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
-  }),
+  loader: () => getPublishedContent(),
+  head: ({ loaderData }) => contentHead(loaderData, "/about"),
   component: AboutPage,
 });
 
 function AboutPage() {
+  const content = useSiteContent();
+  const { services, officePrinciples, blogArticles, phoneNumber, internationalPhone } = siteView(content);
   return (
     <main dir="rtl" className="min-h-screen bg-background text-foreground">
       <SiteHeader />
-      <SectionIntro eyebrow="عن المكتب" title="اهتمام قانوني يبدأ بالاستماع" description="نبدأ بفهم تفاصيل الموضوع، ثم نوضح الجوانب القانونية والخيارات الممكنة بلغة واضحة، مع احترام خصوصية كل استفسار." />
+      <SectionIntro eyebrow={content.text["about_4"]} title={content.text["about_5"]} description={content.text["about_6"]} />
       <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
-            <p className="mb-3 text-sm font-semibold text-primary">منهجنا</p>
-            <h2 className="text-3xl leading-relaxed font-bold">وضوح، اهتمام، ومتابعة مسؤولة</h2>
-            <p className="mt-5 text-base leading-8 text-muted-foreground">نحرص على توضيح ما نعرفه وما يحتاج إلى مراجعة، ومناقشة الخطوات التالية مع العميل بحسب طبيعة موضوعه.</p>
-            <a href="https://wa.me/201002477508" target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+            <p className="mb-3 text-sm font-semibold text-primary">{content.text["about_1"]}</p>
+            <h2 className="text-3xl leading-relaxed font-bold">{content.text["about_2"]}</h2>
+            <p className="mt-5 text-base leading-8 text-muted-foreground">{content.text["about_3"]}</p>
+            <a href={`https://wa.me/${internationalPhone}`} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
               تحدّث معنا
               <ArrowLeft aria-hidden="true" className="size-4" />
             </a>

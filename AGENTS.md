@@ -32,3 +32,7 @@ use the editor.
 ## Project decisions
 - Keep the public-facing law office site Arabic-first and RTL, because its intended audience is in Heliopolis, Cairo.
 - Use TanStack file-based routes and the shared SiteHeader/SiteFooter for public pages, so navigation remains consistent while pages keep their own metadata.
+
+- Store editable site content as published and draft CMS documents with revision checks; public route loaders read only published content, preserving SSR and metadata.
+- Grant site editing only through protected user_roles assigned after confirmation of the owner email; no profile data or client-assignable roles.
+- Store media in a private bucket; sign only image paths referenced in published content for public rendering.

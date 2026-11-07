@@ -1,3 +1,4 @@
+import { useSiteContent, siteView } from "@/lib/cms-context";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ interface SectionIntroProps {
 }
 
 export function SectionIntro({ eyebrow, title, description, actionText, actionTo }: SectionIntroProps) {
+  const content = useSiteContent();
   return (
     <section className="overflow-hidden bg-legal-ink text-primary-foreground">
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
