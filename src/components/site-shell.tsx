@@ -2,7 +2,7 @@ import { useSiteContent, siteView } from "@/lib/cms-context";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpLeft, MapPin, Phone, Scale, Facebook, Instagram } from "lucide-react";
+import { ArrowUpLeft, MapPin, Phone, Scale, Facebook, Instagram, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navigation = [
@@ -76,6 +76,14 @@ export function SiteFooter() {
             <Phone aria-hidden="true" className="size-4" />
             {phoneNumber}
           </a>
+          <a href={`https://wa.me/${content.settings.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(content.settings.greeting)}`} target="_blank" rel="noreferrer" aria-label="واتساب المكتب" className="inline-flex items-center gap-2 transition-colors hover:text-legal-gold-light">
+            <MessageCircle aria-hidden="true" className="size-4" />
+            واتساب
+          </a>
+          <Link to="/contact" className="inline-flex items-center gap-1 transition-colors hover:text-legal-gold-light">
+            تواصل معنا
+            <ArrowUpLeft aria-hidden="true" className="size-4" />
+          </Link>
           <span className="inline-flex items-center gap-2">
             <MapPin aria-hidden="true" className="size-4" />
             {content.settings.address}

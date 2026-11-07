@@ -37,7 +37,7 @@ function Index() {
     <main dir="rtl" className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <section aria-roledescription={content.text["index_9"]} aria-label="تعريف بخدمات المكتب" className="mx-auto max-w-7xl px-4 pt-5 sm:px-8 sm:pt-8 lg:px-12">
+      <section aria-roledescription={content.text["index_9"]} aria-label="تعريف بخدمات المكتب" className="w-full">
         <div className="relative isolate flex min-h-[600px] items-center overflow-hidden bg-legal-ink sm:min-h-[560px] lg:min-h-[620px]">
           <img
             key={currentSlide.alt}
@@ -50,7 +50,8 @@ function Index() {
           />
           <div className="absolute inset-0 -z-10 bg-gradient-to-l from-legal-ink/95 via-legal-ink/75 to-legal-ink/10" />
 
-          <div key={currentSlide.title} className="max-w-3xl px-6 py-14 sm:px-12 sm:py-20 lg:px-16 lg:py-24">
+          <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
+          <div key={currentSlide.title} className="max-w-3xl py-14 sm:py-20 lg:py-24">
             <div className="mb-6 inline-flex items-center gap-2 border border-legal-gold/50 px-3 py-2 text-sm text-legal-gold-light">
               <BadgeCheck aria-hidden="true" className="size-4" />
               {currentSlide.eyebrow}
@@ -67,6 +68,7 @@ function Index() {
                 <ArrowLeft aria-hidden="true" />
               </Link>
             </Button>
+          </div>
           </div>
 
           <div className="absolute bottom-5 left-5 flex items-center gap-2 sm:bottom-8 sm:left-8" dir="ltr">
