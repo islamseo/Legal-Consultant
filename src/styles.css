@@ -64,8 +64,8 @@
   --color-legal-ink: var(--legal-ink);
   --color-legal-surface: var(--legal-surface);
   --color-legal-line: var(--legal-line);
-  --font-sans: "Manrope", "Cairo", sans-serif;
-  --font-display: "Sora", sans-serif;
+  --font-sans: "Cairo", sans-serif;
+  --font-display: "Cairo", sans-serif;
 }
 
 :root {
@@ -145,7 +145,7 @@
 }
 
 :root {
-  font-family: "Manrope", "Cairo", sans-serif;
+  font-family: "Cairo", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
@@ -154,13 +154,13 @@
 body {
   margin: 0;
   min-width: 320px;
-  font-family: "Manrope", "Cairo", sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 
 h1,
 h2,
 h3 {
-  font-family: "Sora", "Cairo", sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 
 ::selection {

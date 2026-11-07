@@ -31,3 +31,4 @@ use the editor.
 
 ## Project decisions
 - Keep the public-facing law office site Arabic-first and RTL, because its intended audience is in Heliopolis, Cairo.
+- Use TanStack file-based routes and the shared SiteHeader/SiteFooter for public pages, so navigation remains consistent while pages keep their own metadata.
