@@ -10,6 +10,12 @@ import {
 export const phoneNumber = "01002477508";
 export const internationalPhone = "201002477508";
 
+export const whatsappGreeting = "مرحبًا، أرغب في الاستفسار عن خدمات مكتب المحاماة.";
+
+export function whatsappHref(message: string = whatsappGreeting) {
+  return `https://wa.me/${internationalPhone}?text=${encodeURIComponent(message)}`;
+}
+
 export const services = [
   {
     icon: BriefcaseBusiness,

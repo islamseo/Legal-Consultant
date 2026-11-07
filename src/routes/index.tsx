@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowUpLeft, BadgeCheck, ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowUpLeft, BadgeCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import officeImage from "@/assets/law-office-heliopolis.jpg";
 import consultationImage from "@/assets/legal-consultation-room.jpg";
 import libraryImage from "@/assets/legal-library.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
-import { internationalPhone, officePrinciples, services } from "@/lib/site-content";
+import { officePrinciples, services } from "@/lib/site-content";
 
 const slides = [
   {
@@ -119,10 +119,6 @@ function Index() {
               <ChevronRight aria-hidden="true" />
             </Button>
           </div>
-          <a href={`https://wa.me/${internationalPhone}`} target="_blank" rel="noreferrer" className="absolute bottom-8 right-8 hidden items-center gap-2 text-sm text-primary-foreground/80 transition-colors hover:text-legal-gold-light sm:flex">
-            <MessageCircle aria-hidden="true" className="size-4" />
-            تواصل عبر واتساب
-          </a>
         </div>
       </section>
 

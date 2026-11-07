@@ -55,7 +55,7 @@ export function SiteHeader() {
 export function SiteFooter() {
   return (
     <footer className="border-t border-legal-line bg-legal-ink text-primary-foreground">
-      <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12">
+      <div className="mx-auto grid max-w-7xl gap-8 px-5 pt-10 pb-24 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12">
         <div>
           <div className="flex items-center gap-3">
             <Scale aria-hidden="true" className="size-5 text-legal-gold" />
