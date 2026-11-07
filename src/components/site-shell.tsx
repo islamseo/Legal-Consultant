@@ -88,8 +88,26 @@ export function SiteFooter() {
             <MapPin aria-hidden="true" className="size-4" />
             {content.settings.address}
           </span>
-          {content.settings.facebook && <a href={content.settings.facebook} target="_blank" rel="noreferrer" aria-label="فيسبوك" className="inline-flex items-center gap-2"><Facebook className="size-5" /> فيسبوك</a>}
-          {content.settings.instagram && <a href={content.settings.instagram} target="_blank" rel="noreferrer" aria-label="إنستجرام" className="inline-flex items-center gap-2"><Instagram className="size-5" /> إنستجرام</a>}
+          <div className="flex items-center gap-2">
+            {[
+              { label: "فيسبوك", href: content.settings.facebook, icon: Facebook },
+              { label: "إنستجرام", href: content.settings.instagram, icon: Instagram },
+            ].map(({ label, href, icon: Icon }) => (
+              <span key={label} title={label}>
+                {href ? (
+                  <Button asChild variant="ghost" size="icon" className="text-legal-gold-light hover:bg-legal-surface hover:text-legal-gold-light">
+                    <a href={href} target="_blank" rel="noreferrer" aria-label={label}>
+                      <Icon aria-hidden="true" />
+                    </a>
+                  </Button>
+                ) : (
+                  <Button type="button" variant="ghost" size="icon" disabled aria-label={label} className="text-legal-gold-light">
+                    <Icon aria-hidden="true" />
+                  </Button>
+                )}
+              </span>
+            ))}
+          </div>
           <Link to={signedIn ? "/admin" : "/auth"} className="text-primary-foreground/65">{signedIn ? "إدارة الموقع" : "دخول الإدارة"}</Link>
           <Link to="/legal-consultation" className="inline-flex items-center gap-1 transition-colors hover:text-legal-gold-light">
             اطلب استشارة
